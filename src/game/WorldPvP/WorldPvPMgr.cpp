@@ -46,7 +46,7 @@ void WorldPvPMgr::InitWorldPvP()
     uint8 uiPvPZonesInitialized = 0;
 
     WorldPvP* pWorldPvP = new WorldPvPEP;
-    if(!pWorldPvP->InitWorldPvPArea())
+    if (!pWorldPvP->InitWorldPvPArea())
     {
         sLog.outDebug("WorldPvP : EASTER PLAGUELANDS init failed.");
         delete pWorldPvP;
@@ -58,7 +58,7 @@ void WorldPvPMgr::InitWorldPvP()
     }
 
     pWorldPvP = new WorldPvPHP;
-    if(!pWorldPvP->InitWorldPvPArea())
+    if (!pWorldPvP->InitWorldPvPArea())
     {
         sLog.outDebug("WorldPvP : HELLFIRE PENINSULA init failed.");
         delete pWorldPvP;
@@ -70,7 +70,7 @@ void WorldPvPMgr::InitWorldPvP()
     }
 
     pWorldPvP = new WorldPvPNA;
-    if(!pWorldPvP->InitWorldPvPArea())
+    if (!pWorldPvP->InitWorldPvPArea())
     {
         sLog.outDebug("WorldPvP : NAGRAND init failed.");
         delete pWorldPvP;
@@ -82,7 +82,7 @@ void WorldPvPMgr::InitWorldPvP()
     }
 
     pWorldPvP = new WorldPvPSI;
-    if(!pWorldPvP->InitWorldPvPArea())
+    if (!pWorldPvP->InitWorldPvPArea())
     {
         sLog.outDebug("WorldPvP : SILITHUS init failed.");
         delete pWorldPvP;
@@ -94,7 +94,7 @@ void WorldPvPMgr::InitWorldPvP()
     }
 
     pWorldPvP = new WorldPvPTF;
-    if(!pWorldPvP->InitWorldPvPArea())
+    if (!pWorldPvP->InitWorldPvPArea())
     {
         sLog.outDebug("WorldPvP : TEROKKAR FOREST init failed.");
         delete pWorldPvP;
@@ -106,7 +106,7 @@ void WorldPvPMgr::InitWorldPvP()
     }
 
     pWorldPvP = new WorldPvPZM;
-    if(!pWorldPvP->InitWorldPvPArea())
+    if (!pWorldPvP->InitWorldPvPArea())
     {
         sLog.outDebug("WorldPvP : ZANGAMARSH init failed.");
         delete pWorldPvP;
@@ -141,10 +141,10 @@ void WorldPvPMgr::AddZone(uint32 uiZoneId, WorldPvP* pScriptHandler)
 void WorldPvPMgr::HandlePlayerEnterZone(Player* pPlayer, uint32 uiZoneId)
 {
     WorldPvPMap::iterator itr = m_WorldPvPMap.find(uiZoneId);
-    if(itr == m_WorldPvPMap.end())
+    if (itr == m_WorldPvPMap.end())
         return;
 
-    if(itr->second->HasPlayer(pPlayer))
+    if (itr->second->HasPlayer(pPlayer))
         return;
 
     itr->second->HandlePlayerEnterZone(pPlayer);
@@ -160,11 +160,11 @@ void WorldPvPMgr::HandlePlayerEnterZone(Player* pPlayer, uint32 uiZoneId)
 void WorldPvPMgr::HandlePlayerLeaveZone(Player* pPlayer, uint32 uiZoneId)
 {
     WorldPvPMap::iterator itr = m_WorldPvPMap.find(uiZoneId);
-    if(itr == m_WorldPvPMap.end())
+    if (itr == m_WorldPvPMap.end())
         return;
 
     // teleport: remove once in removefromworld, once in updatezone
-    if(!itr->second->HasPlayer(pPlayer))
+    if (!itr->second->HasPlayer(pPlayer))
         return;
 
     itr->second->HandlePlayerLeaveZone(pPlayer);
@@ -181,7 +181,7 @@ void WorldPvPMgr::HandleDropFlag(Player* pPlayer, uint32 uiSpellId)
 {
     for (WorldPvPSet::iterator itr = m_WorldPvPSet.begin(); itr != m_WorldPvPSet.end(); ++itr)
     {
-        if((*itr)->HandleDropFlag(pPlayer, uiSpellId))
+        if ((*itr)->HandleDropFlag(pPlayer, uiSpellId))
             return;
     }
 }
@@ -220,7 +220,7 @@ bool WorldPvPMgr::HandleObjectUse(Player* pPlayer, GameObject* pGo)
 {
     for (WorldPvPSet::iterator itr = m_WorldPvPSet.begin(); itr != m_WorldPvPSet.end(); ++itr)
     {
-        if((*itr)->HandleObjectUse(pPlayer, pGo))
+        if ((*itr)->HandleObjectUse(pPlayer, pGo))
             return true;
     }
     return false;
@@ -236,7 +236,7 @@ WorldPvP* WorldPvPMgr::GetWorldPvPToZoneId(uint32 uiZoneId)
     WorldPvPMap::iterator itr = m_WorldPvPMap.find(uiZoneId);
 
     // no handle for this zone, return
-    if(itr == m_WorldPvPMap.end())
+    if (itr == m_WorldPvPMap.end())
         return NULL;
 
     return itr->second;
@@ -251,7 +251,7 @@ ZoneScript* WorldPvPMgr::GetZoneScript(uint32 uiZoneId)
 {
     WorldPvPMap::iterator itr = m_WorldPvPMap.find(uiZoneId);
 
-    if(itr != m_WorldPvPMap.end())
+    if (itr != m_WorldPvPMap.end())
         return itr->second;
     else
         return NULL;
@@ -260,7 +260,7 @@ ZoneScript* WorldPvPMgr::GetZoneScript(uint32 uiZoneId)
 void WorldPvPMgr::Update(uint32 diff)
 {
     m_UpdateTimer.Update(diff);
-    if( !m_UpdateTimer.Passed() )
+    if (!m_UpdateTimer.Passed())
         return;
 
     for (WorldPvPSet::iterator itr = m_WorldPvPSet.begin(); itr != m_WorldPvPSet.end(); ++itr)
