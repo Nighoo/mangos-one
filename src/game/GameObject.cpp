@@ -1932,7 +1932,7 @@ void GameObject::TickCapturePoint()
             // send capture point zone enter packets
             (*itr)->SendUpdateWorldState(info->capturePoint.worldState3, neutralPercent);
             (*itr)->SendUpdateWorldState(info->capturePoint.worldState2, oldValue);
-            (*itr)->SendUpdateWorldState(info->capturePoint.worldState1, WORLD_STATE_ADDED);
+            (*itr)->SendUpdateWorldState(info->capturePoint.worldState1, WORLD_STATE_ADD);
             //(*itr)->SendUpdateWorldState(info->capturePoint.worldState2, oldValue); // redundantly sent on retail
         }
     }
@@ -1941,7 +1941,7 @@ void GameObject::TickCapturePoint()
     {
         // send capture point leave packet
         if (Player* owner = GetMap()->GetPlayer(*itr))
-            owner->SendUpdateWorldState(info->capturePoint.worldState1, WORLD_STATE_REMOVED);
+            owner->SendUpdateWorldState(info->capturePoint.worldState1, WORLD_STATE_REMOVE);
 
         // player left capture point zone
         m_UniqueUsers.erase((*itr));
