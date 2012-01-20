@@ -1863,7 +1863,7 @@ void GameObject::SetCapturePointSlider(int8 value)
             m_captureSlider = CAPTURE_SLIDER_HORDE;
             break;
         case CAPTURE_SLIDER_RESET:
-            value = info->capturePoint.startingValue; // CAPTURE_SLIDER_NEUTRAL in TBC
+            value = CAPTURE_SLIDER_NEUTRAL; // CAPTURE_SLIDER_NEUTRAL in TBC
         default:
             m_captureSlider = value;
             m_cooldownTime = time(NULL) + 3000; // initial delay for capture points
