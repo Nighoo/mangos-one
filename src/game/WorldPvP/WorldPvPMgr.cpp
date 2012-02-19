@@ -148,7 +148,6 @@ void WorldPvPMgr::HandlePlayerEnterZone(Player* pPlayer, uint32 uiZoneId)
         return;
 
     itr->second->HandlePlayerEnterZone(pPlayer);
-    sLog.outDebug("Player %u entered worldpvp id %u", pPlayer->GetGUIDLow(), itr->second->GetTypeId());
 }
 
 /**
@@ -168,7 +167,6 @@ void WorldPvPMgr::HandlePlayerLeaveZone(Player* pPlayer, uint32 uiZoneId)
         return;
 
     itr->second->HandlePlayerLeaveZone(pPlayer);
-    sLog.outDebug("Player %u left worldpvp id %u", pPlayer->GetGUIDLow(), itr->second->GetTypeId());
 }
 
 /**
