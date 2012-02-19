@@ -153,13 +153,12 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map *map, float x, float
 
     SetGoState(go_state);
     SetGoType(GameobjectTypes(goinfo->type));
+    SetGoArtKit(0);                                         // unknown what this is
     SetGoAnimProgress(animprogress);
 
     // set saved capture point info if the grid was unloaded (for non visual capture points)
     if (goinfo->type == GAMEOBJECT_TYPE_CAPTURE_POINT && goinfo->capturePoint.radius)
         SetCapturePointSlider(sWorldPvPMgr.GetCapturePointSliderValue(goinfo->id));
-    else
-        SetGoArtKit(0);                                     // unknown what this is
 
     //Notify the map's instance data.
     //Only works if you create the object in it, not if it is moves to that map.
@@ -1940,11 +1939,10 @@ void GameObject::TickCapturePoint()
             // new player entered capture point zone
             m_UniqueUsers.insert(guid);
 
-            // send capture point zone enter packets
+            // send capture point enter packets
             (*itr)->SendUpdateWorldState(info->capturePoint.worldState3, neutralPercent);
             (*itr)->SendUpdateWorldState(info->capturePoint.worldState2, oldValue);
             (*itr)->SendUpdateWorldState(info->capturePoint.worldState1, WORLD_STATE_ADD);
-            //(*itr)->SendUpdateWorldState(info->capturePoint.worldState2, oldValue); // redundantly sent on retail
         }
     }
 
