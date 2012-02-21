@@ -8245,7 +8245,7 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
             break;
         case 3483:                                          // Hellfire Peninsula
             if (outdoorBg)
-                outdoorBg->FillInitialWorldStates(data,count);
+                outdoorBg->FillInitialWorldStates(data, count);
             else
                 FillInitialWorldState(data, count, HP_world_states);
             break;
@@ -8257,13 +8257,13 @@ void Player::SendInitWorldStates(uint32 zoneid, uint32 areaid)
             break;
         case 3519:                                          // Terokkar Forest
             if (outdoorBg)
-                outdoorBg->FillInitialWorldStates(data,count);
+                outdoorBg->FillInitialWorldStates(data, count);
             else
                 FillInitialWorldState(data, count, TF_world_states);
             break;
         case 3521:                                          // Zangarmarsh
             if (outdoorBg)
-                outdoorBg->FillInitialWorldStates(data,count);
+                outdoorBg->FillInitialWorldStates(data, count);
             else
                 FillInitialWorldState(data, count, ZM_world_states);
             break;
