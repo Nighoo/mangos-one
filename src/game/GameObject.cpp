@@ -64,9 +64,9 @@ GameObject::GameObject() : WorldObject(),
 
 GameObject::~GameObject()
 {
-    // store the capture point slider value (for non visual capture points)
+    // store the capture point slider value (for non visual, non locked capture points)
     GameObjectInfo const* goInfo = GetGOInfo();
-    if (goInfo && goInfo->type == GAMEOBJECT_TYPE_CAPTURE_POINT && goInfo->capturePoint.radius)
+    if (goInfo && goInfo->type == GAMEOBJECT_TYPE_CAPTURE_POINT && goInfo->capturePoint.radius && m_lootState == GO_ACTIVATED)
         sWorldPvPMgr.SetCapturePointSlider(GetEntry(), m_captureSlider);
 }
 
@@ -1871,9 +1871,6 @@ void GameObject::SetCapturePointSlider(int8 value)
         case CAPTURE_SLIDER_HORDE_LOCKED:
             m_captureSlider = CAPTURE_SLIDER_HORDE;
             break;
-        case CAPTURE_SLIDER_RESET:
-            value = CAPTURE_SLIDER_NEUTRAL; // CAPTURE_SLIDER_NEUTRAL in TBC
-            // no break here
         default:
             m_captureSlider = value;
             m_cooldownTime = time(NULL) + 3; // initial delay for capture points
@@ -1882,29 +1879,16 @@ void GameObject::SetCapturePointSlider(int8 value)
     }
 
     // set the state of the capture point based on the capture ticks
-    if (m_captureSlider > CAPTURE_SLIDER_NEUTRAL + info->capturePoint.neutralPercent * 0.5f)
-    {
-        if (m_captureSlider == CAPTURE_SLIDER_ALLIANCE)
-            m_captureState = CAPTURE_STATE_WIN_ALLIANCE;
-        else
-            m_captureState = CAPTURE_STATE_PROGRESS_ALLIANCE;
-
-        SetGoArtKit(GO_ARTKIT_BANNER_ALLIANCE);
-    }
+    if (m_captureSlider == CAPTURE_SLIDER_ALLIANCE)
+        m_captureState = CAPTURE_STATE_WIN_ALLIANCE;
+    else if (m_captureSlider == CAPTURE_SLIDER_HORDE)
+        m_captureState = CAPTURE_STATE_WIN_HORDE;
+    else if (m_captureSlider > CAPTURE_SLIDER_NEUTRAL + info->capturePoint.neutralPercent * 0.5f)
+        m_captureState = CAPTURE_STATE_PROGRESS_ALLIANCE;
     else if (m_captureSlider < CAPTURE_SLIDER_NEUTRAL - info->capturePoint.neutralPercent * 0.5f)
-    {
-        if (m_captureSlider == CAPTURE_SLIDER_HORDE)
-            m_captureState = CAPTURE_STATE_WIN_HORDE;
-        else
-            m_captureState = CAPTURE_STATE_PROGRESS_HORDE;
-
-        SetGoArtKit(GO_ARTKIT_BANNER_HORDE);
-    }
+        m_captureState = CAPTURE_STATE_PROGRESS_HORDE;
     else
-    {
         m_captureState = CAPTURE_STATE_NEUTRAL;
-        SetGoArtKit(GO_ARTKIT_BANNER_NEUTRAL);
-    }
 }
 
 void GameObject::TickCapturePoint()

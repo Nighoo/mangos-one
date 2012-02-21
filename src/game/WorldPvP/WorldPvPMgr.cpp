@@ -231,5 +231,5 @@ int8 WorldPvPMgr::GetCapturePointSliderValue(uint32 uiEntry)
         return find->second;
 
     // return default value if we can't find any
-    return CAPTURE_SLIDER_RESET;
+    return CAPTURE_SLIDER_NEUTRAL;
 }
