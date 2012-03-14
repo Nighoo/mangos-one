@@ -36,6 +36,7 @@
 #include "MapPersistentStateMgr.h"
 #include "BattleGround.h"
 #include "BattleGroundAV.h"
+#include "OutdoorPvP/OutdoorPvPMgr.h"
 #include "Util.h"
 #include "ScriptMgr.h"
 
@@ -67,7 +68,7 @@ GameObject::~GameObject()
     // store the capture point slider value (for non visual, non locked capture points)
     GameObjectInfo const* goInfo = GetGOInfo();
     if (goInfo && goInfo->type == GAMEOBJECT_TYPE_CAPTURE_POINT && goInfo->capturePoint.radius && m_lootState == GO_ACTIVATED)
-        sWorldPvPMgr.SetCapturePointSlider(GetEntry(), m_captureSlider);
+        sOutdoorPvPMgr.SetCapturePointSlider(GetEntry(), m_captureSlider);
 }
 
 void GameObject::AddToWorld()
@@ -158,7 +159,7 @@ bool GameObject::Create(uint32 guidlow, uint32 name_id, Map *map, float x, float
 
     // set saved capture point info if the grid was unloaded (for non visual capture points)
     if (goinfo->type == GAMEOBJECT_TYPE_CAPTURE_POINT && goinfo->capturePoint.radius)
-        SetCapturePointSlider(sWorldPvPMgr.GetCapturePointSliderValue(goinfo->id));
+        SetCapturePointSlider(sOutdoorPvPMgr.GetCapturePointSliderValue(goinfo->id));
 
     //Notify the map's instance data.
     //Only works if you create the object in it, not if it is moves to that map.
@@ -2006,7 +2007,7 @@ void GameObject::TickCapturePoint()
 
         // handle objective complete
         if (m_captureState == CAPTURE_STATE_NEUTRAL)
-            sWorldPvPMgr.HandleObjectiveComplete(eventId, capturingPlayers, progressFaction);
+            sOutdoorPvPMgr.HandleObjectiveComplete(eventId, capturingPlayers, progressFaction);
 
         // set capture state to alliance
         m_captureState = CAPTURE_STATE_PROGRESS_ALLIANCE;
@@ -2018,7 +2019,7 @@ void GameObject::TickCapturePoint()
 
         // handle objective complete
         if (m_captureState == CAPTURE_STATE_NEUTRAL)
-            sWorldPvPMgr.HandleObjectiveComplete(eventId, capturingPlayers, progressFaction);
+            sOutdoorPvPMgr.HandleObjectiveComplete(eventId, capturingPlayers, progressFaction);
 
         // set capture state to horde
         m_captureState = CAPTURE_STATE_PROGRESS_HORDE;
